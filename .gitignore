@@ -1,0 +1,33 @@
+# Data files (too large / sensitive)
+*.csv
+*.log
+
+# Data directories
+data/
+CAS_data.csv
+connected_vehicle/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
