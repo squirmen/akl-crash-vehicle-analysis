@@ -7,6 +7,9 @@ data/
 CAS_data.csv
 connected_vehicle/
 
+# Output files (regenerable)
+outputs/
+
 # Python
 __pycache__/
 *.py[cod]

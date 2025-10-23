@@ -1,0 +1,14 @@
+# Core data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Geospatial
+pyproj>=3.5.0
+shapely>=2.0.0
+
+# Spatial indexing
+scipy>=1.10.0
+
+# Visualization (optional - for analysis scripts only)
+matplotlib>=3.7.0
+seaborn>=0.12.0
