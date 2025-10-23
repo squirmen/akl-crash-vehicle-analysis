@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trip d9ONScAlfHuZ3DJWfAMm2g== - Crash 2025341038</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { height: 100vh; width: 100vw; }
+        .legend {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        .legend-title { font-weight: bold; margin-bottom: 5px; }
+        .legend-scale { margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var map = L.map('map').setView([-36.889606896551726, 174.79442586206898], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Speed color function (km/h)
+        function getColor(speed) {
+            // Convert mph to km/h
+            var kmh = speed * 1.60934;
+            return kmh > 100 ? '#00ff00' :
+                   kmh > 80  ? '#66ff33' :
+                   kmh > 60  ? '#ccff33' :
+                   kmh > 40  ? '#ffff00' :
+                   kmh > 20  ? '#ffcc00' :
+                   kmh > 10  ? '#ff6600' :
+                                '#ff0000';
+        }
+
+        // Add trip points
+        var points = [
+            {lat: -36.889606896551726, lon: 174.79442586206898, time: '2025-06-25 08:44:17.001', speed: 5.0, idx: 0},
+            {lat: -36.88943103448276, lon: 174.7946531034483, time: '2025-06-25 08:44:27', speed: 11.0, idx: 1},
+            {lat: -36.88963689655172, lon: 174.79521793103447, time: '2025-06-25 08:44:52', speed: 4.0, idx: 2},
+            {lat: -36.88980586206897, lon: 174.7954651724138, time: '2025-06-25 08:45:57', speed: 5.0, idx: 3},
+            {lat: -36.889774137931035, lon: 174.79552999999999, time: '2025-06-25 08:46:01', speed: 4.0, idx: 4},
+            {lat: -36.88976689655173, lon: 174.79554413793102, time: '2025-06-25 08:46:02', speed: 5.0, idx: 5},
+            {lat: -36.88970310344828, lon: 174.79565586206894, time: '2025-06-25 08:46:10', speed: 4.0, idx: 6},
+            {lat: -36.88957310344828, lon: 174.79580103448274, time: '2025-06-25 08:46:33', speed: 7.0, idx: 7},
+            {lat: -36.88932310344828, lon: 174.79620103448275, time: '2025-06-25 08:46:51', speed: 4.0, idx: 8},
+            {lat: -36.889304137931035, lon: 174.79623793103445, time: '2025-06-25 08:46:54', speed: 5.0, idx: 9},
+            {lat: -36.889222068965516, lon: 174.79637517241378, time: '2025-06-25 08:47:03', speed: 4.0, idx: 10},
+            {lat: -36.88919310344828, lon: 174.79641896551726, time: '2025-06-25 08:47:07', speed: 5.0, idx: 11},
+            {lat: -36.88899896551724, lon: 174.7965851724138, time: '2025-06-25 08:47:23', speed: 4.0, idx: 12},
+            {lat: -36.88898689655172, lon: 174.79658896551723, time: '2025-06-25 08:47:24', speed: 5.0, idx: 13},
+            {lat: -36.88897310344828, lon: 174.79659103448273, time: '2025-06-25 08:47:25', speed: 4.0, idx: 14},
+            {lat: -36.88895896551724, lon: 174.79659206896554, time: '2025-06-25 08:47:26', speed: 5.0, idx: 15},
+            {lat: -36.88893206896552, lon: 174.79658896551723, time: '2025-06-25 08:47:28', speed: 4.0, idx: 16},
+            {lat: -36.888875862068964, lon: 174.79657586206895, time: '2025-06-25 08:47:33', speed: 5.0, idx: 17},
+            {lat: -36.88878689655172, lon: 174.79650103448273, time: '2025-06-25 08:47:40', speed: 4.0, idx: 18},
+            {lat: -36.888693103448276, lon: 174.79632413793104, time: '2025-06-25 08:47:59', speed: 5.0, idx: 19},
+            {lat: -36.88866413793104, lon: 174.79626689655174, time: '2025-06-25 08:48:03', speed: 4.0, idx: 20},
+            {lat: -36.88865689655172, lon: 174.7962531034483, time: '2025-06-25 08:48:04', speed: 5.0, idx: 21},
+            {lat: -36.88860896551724, lon: 174.79614896551726, time: '2025-06-25 08:48:11', speed: 4.0, idx: 22},
+            {lat: -36.888596896551725, lon: 174.79612206896553, time: '2025-06-25 08:48:13', speed: 5.0, idx: 23},
+            {lat: -36.88857793103448, lon: 174.79608000000002, time: '2025-06-25 08:48:16', speed: 3.0, idx: 24},
+            {lat: -36.888497931034486, lon: 174.7958948275862, time: '2025-06-25 08:48:40', speed: 5.0, idx: 25},
+            {lat: -36.88845310344828, lon: 174.79579896551724, time: '2025-06-25 08:48:46', speed: 4.0, idx: 26},
+            {lat: -36.88832896551724, lon: 174.79553206896554, time: '2025-06-25 08:49:08', speed: 5.0, idx: 27},
+            {lat: -36.88830896551724, lon: 174.79549310344828, time: '2025-06-25 08:49:11', speed: 4.0, idx: 28},
+            {lat: -36.88829103448276, lon: 174.79545413793102, time: '2025-06-25 08:49:14', speed: 5.0, idx: 29},
+            {lat: -36.888216896551725, lon: 174.79530413793105, time: '2025-06-25 08:49:23', speed: 4.0, idx: 30},
+            {lat: -36.888196896551726, lon: 174.7952631034483, time: '2025-06-25 08:49:26', speed: 5.0, idx: 31},
+            {lat: -36.88700793103448, lon: 174.79290310344828, time: '2025-06-25 08:50:00', speed: 39.0, idx: 32},
+            {lat: -36.88563, lon: 174.7906031034483, time: '2025-06-25 08:50:24', speed: 40.0, idx: 33},
+            {lat: -36.88408206896552, lon: 174.7885548275862, time: '2025-06-25 08:50:44', speed: 44.0, idx: 34},
+            {lat: -36.88234896551724, lon: 174.78677103448274, time: '2025-06-25 08:51:03', speed: 49.0, idx: 35},
+            {lat: -36.88056586206896, lon: 174.7849731034483, time: '2025-06-25 08:51:23', speed: 41.0, idx: 36},
+            {lat: -36.87878, lon: 174.7831920689655, time: '2025-06-25 08:51:48', speed: 17.0, idx: 37},
+            {lat: -36.87691, lon: 174.7815, time: '2025-06-25 08:52:23', speed: 32.0, idx: 38},
+            {lat: -36.875085862068964, lon: 174.7797451724138, time: '2025-06-25 08:52:56', speed: 25.0, idx: 39},
+            {lat: -36.87468482758621, lon: 174.77917517241377, time: '2025-06-25 08:53:13', speed: 3.0, idx: 40},
+            {lat: -36.87463206896552, lon: 174.77909586206897, time: '2025-06-25 08:53:21', speed: 6.0, idx: 41},
+            {lat: -36.87367, lon: 174.77690517241382, time: '2025-06-25 08:54:13', speed: 4.0, idx: 42},
+            {lat: -36.87364310344827, lon: 174.7768379310345, time: '2025-06-25 08:54:18', speed: 5.0, idx: 43},
+            {lat: -36.872597931034484, lon: 174.77441793103446, time: '2025-06-25 08:54:56', speed: 26.0, idx: 44},
+            {lat: -36.871665862068966, lon: 174.77313413793104, time: '2025-06-25 08:55:24', speed: 2.0, idx: 45},
+            {lat: -36.871633103448275, lon: 174.77309689655175, time: '2025-06-25 08:55:35', speed: 6.0, idx: 46},
+            {lat: -36.86988206896552, lon: 174.77129896551725, time: '2025-06-25 08:56:29', speed: 28.0, idx: 47},
+            {lat: -36.86933206896552, lon: 174.77060103448275, time: '2025-06-25 08:56:42', speed: 4.0, idx: 48},
+            {lat: -36.869272068965515, lon: 174.77052310344828, time: '2025-06-25 08:57:00', speed: 6.0, idx: 49},
+            {lat: -36.867803103448274, lon: 174.76851482758622, time: '2025-06-25 08:57:56', speed: 16.0, idx: 50},
+            {lat: -36.86679, lon: 174.76765310344825, time: '2025-06-25 08:58:20', speed: 38.0, idx: 51},
+            {lat: -36.86462, lon: 174.7666931034483, time: '2025-06-25 08:58:42', speed: 48.0, idx: 52},
+            {lat: -36.86356896551724, lon: 174.76535, time: '2025-06-25 08:58:58', speed: 30.0, idx: 53},
+            {lat: -36.86185413793103, lon: 174.7634451724138, time: '2025-06-25 08:59:23', speed: 44.0, idx: 54},
+            {lat: -36.860981034482755, lon: 174.76230103448273, time: '2025-06-25 08:59:37', speed: 33.0, idx: 55},
+            {lat: -36.8604, lon: 174.76047586206897, time: '2025-06-25 08:59:50', speed: 57.0, idx: 56},
+            {lat: -36.860675862068966, lon: 174.75761413793106, time: '2025-06-25 09:00:04', speed: 73.0, idx: 57},
+            {lat: -36.86141586206897, lon: 174.75601999999998, time: '2025-06-25 09:00:12', speed: 74.0, idx: 58},
+            {lat: -36.862766896551726, lon: 174.75370413793104, time: '2025-06-25 09:00:24', speed: 76.0, idx: 59},
+            {lat: -36.86437, lon: 174.7516879310345, time: '2025-06-25 09:00:36', speed: 77.0, idx: 60},
+            {lat: -36.866318965517245, lon: 174.74952000000002, time: '2025-06-25 09:00:49', speed: 81.0, idx: 61},
+            {lat: -36.86791586206896, lon: 174.7475168965517, time: '2025-06-25 09:01:00', speed: 81.0, idx: 62},
+            {lat: -36.86881413793103, lon: 174.74535310344828, time: '2025-06-25 09:01:10', speed: 77.0, idx: 63},
+            {lat: -36.869063103448276, lon: 174.74265586206894, time: '2025-06-25 09:01:21', speed: 77.0, idx: 64},
+            {lat: -36.86876310344827, lon: 174.7394951724138, time: '2025-06-25 09:01:34', speed: 77.0, idx: 65},
+            {lat: -36.86849103448276, lon: 174.7366168965517, time: '2025-06-25 09:01:46', speed: 77.0, idx: 66},
+            {lat: -36.86825206896552, lon: 174.73373586206895, time: '2025-06-25 09:01:58', speed: 78.0, idx: 67},
+            {lat: -36.86846482758621, lon: 174.73079310344826, time: '2025-06-25 09:02:10', speed: 78.0, idx: 68},
+            {lat: -36.868931034482756, lon: 174.72793517241377, time: '2025-06-25 09:02:22', speed: 79.0, idx: 69},
+            {lat: -36.86888413793103, lon: 174.72504896551726, time: '2025-06-25 09:02:33', speed: 86.0, idx: 70},
+            {lat: -36.86869896551724, lon: 174.7220268965517, time: '2025-06-25 09:02:44', speed: 87.0, idx: 71},
+            {lat: -36.868935862068966, lon: 174.71958793103448, time: '2025-06-25 09:02:53', speed: 88.0, idx: 72},
+            {lat: -36.869762068965514, lon: 174.71676310344827, time: '2025-06-25 09:03:04', speed: 87.0, idx: 73},
+            {lat: -36.87059517241379, lon: 174.7139668965517, time: '2025-06-25 09:03:15', speed: 86.0, idx: 74},
+            {lat: -36.87141482758621, lon: 174.71114793103447, time: '2025-06-25 09:03:26', speed: 88.0, idx: 75},
+            {lat: -36.871644137931035, lon: 174.70816103448277, time: '2025-06-25 09:03:37', speed: 87.0, idx: 76},
+            {lat: -36.872263103448276, lon: 174.7052568965517, time: '2025-06-25 09:03:48', speed: 87.0, idx: 77},
+            {lat: -36.872582068965514, lon: 174.7025579310345, time: '2025-06-25 09:03:58', speed: 87.0, idx: 78},
+            {lat: -36.872186896551725, lon: 174.69961, time: '2025-06-25 09:04:09', speed: 86.0, idx: 79},
+            {lat: -36.87187413793104, lon: 174.69663103448278, time: '2025-06-25 09:04:20', speed: 87.0, idx: 80},
+            {lat: -36.87184310344828, lon: 174.6936179310345, time: '2025-06-25 09:04:31', speed: 87.0, idx: 81},
+            {lat: -36.87184689655172, lon: 174.69073413793103, time: '2025-06-25 09:04:42', speed: 83.0, idx: 82},
+            {lat: -36.871923103448275, lon: 174.68783517241377, time: '2025-06-25 09:04:53', speed: 83.0, idx: 83},
+            {lat: -36.87200103448276, lon: 174.68501896551726, time: '2025-06-25 09:05:04', speed: 81.0, idx: 84},
+            {lat: -36.872014827586206, lon: 174.68215206896554, time: '2025-06-25 09:05:15', speed: 83.0, idx: 85},
+            {lat: -36.87191586206897, lon: 174.6792379310345, time: '2025-06-25 09:05:26', speed: 86.0, idx: 86},
+            {lat: -36.87151413793104, lon: 174.67684103448278, time: '2025-06-25 09:05:35', speed: 87.0, idx: 87},
+            {lat: -36.87032, lon: 174.67422896551722, time: '2025-06-25 09:05:46', speed: 87.0, idx: 88},
+            {lat: -36.869045862068965, lon: 174.67170206896554, time: '2025-06-25 09:05:57', speed: 86.0, idx: 89},
+            {lat: -36.86774103448276, lon: 174.66916517241378, time: '2025-06-25 09:06:08', speed: 87.0, idx: 90},
+            {lat: -36.86626, lon: 174.66679689655172, time: '2025-06-25 09:06:19', speed: 87.0, idx: 91},
+            {lat: -36.86430482758621, lon: 174.6650668965517, time: '2025-06-25 09:06:30', speed: 85.0, idx: 92},
+            {lat: -36.862303103448276, lon: 174.66346, time: '2025-06-25 09:06:41', speed: 84.0, idx: 93},
+            {lat: -36.86115, lon: 174.6615251724138, time: '2025-06-25 09:06:50', speed: 86.0, idx: 94},
+            {lat: -36.86016310344828, lon: 174.65889206896554, time: '2025-06-25 09:07:01', speed: 84.0, idx: 95},
+            {lat: -36.85921482758621, lon: 174.6562079310345, time: '2025-06-25 09:07:12', speed: 83.0, idx: 96},
+            {lat: -36.858442068965516, lon: 174.6535389655172, time: '2025-06-25 09:07:25', speed: 51.0, idx: 97},
+            {lat: -36.85826896551724, lon: 174.65258586206897, time: '2025-06-25 09:07:40', speed: 3.0, idx: 98},
+            {lat: -36.85827103448276, lon: 174.6525620689655, time: '2025-06-25 09:09:03', speed: 6.0, idx: 99},
+            {lat: -36.85818, lon: 174.65210689655174, time: '2025-06-25 09:09:11', speed: 23.0, idx: 100},
+            {lat: -36.855904137931034, lon: 174.65164413793104, time: '2025-06-25 09:09:40', speed: 33.0, idx: 101},
+            {lat: -36.85368413793103, lon: 174.65085586206897, time: '2025-06-25 09:10:02', speed: 41.0, idx: 102},
+            {lat: -36.85220413793103, lon: 174.6509231034483, time: '2025-06-25 09:10:23', speed: 8.0, idx: 103},
+            {lat: -36.852174827586204, lon: 174.65087793103447, time: '2025-06-25 09:10:26', speed: 4.0, idx: 104},
+            {lat: -36.852192068965515, lon: 174.65081413793104, time: '2025-06-25 09:10:30', speed: 6.0, idx: 105},
+            {lat: -36.85235896551724, lon: 174.65057310344827, time: '2025-06-25 09:10:41', speed: 2.0, idx: 106},
+        ];
+
+        points.forEach(function(point, idx) {
+            var color = getColor(point.speed);
+            var marker = L.circleMarker([point.lat, point.lon], {
+                radius: 4,
+                fillColor: color,
+                color: '#000',
+                weight: 1,
+                opacity: 0.8,
+                fillOpacity: 0.8
+            }).addTo(map);
+
+            marker.bindPopup(
+                '<b>Point ' + point.idx + '</b><br>' +
+                'Time: ' + point.time + '<br>' +
+                'Speed: ' + point.speed + ' mph (' + (point.speed * 1.60934).toFixed(1) + ' km/h)'
+            );
+        });
+
+        // Draw path
+        var latlngs = points.map(p => [p.lat, p.lon]);
+        var polyline = L.polyline(latlngs, {color: 'blue', weight: 2, opacity: 0.5}).addTo(map);
+
+        // Add crash marker
+        var crashMarker = L.marker([-36.88977210882028, 174.7955091395421], {
+            icon: L.icon({
+                iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJyZWQiIGQ9Ik0xMiAyQzguMTMgMiA1IDUuMTMgNSA5YzAgNS4yNSA3IDEzIDcgMTNzNy03Ljc1IDctMTNjMC0zLjg3LTMuMTMtNy03LTd6bTAgOS41Yy0xLjM4IDAtMi41LTEuMTItMi41LTIuNXMxLjEyLTIuNSAyLjUtMi41IDIuNSAxLjEyIDIuNSAyLjUtMS4xMiAyLjUtMi41IDIuNXoiLz48L3N2Zz4=',
+                iconSize: [32, 32],
+                iconAnchor: [16, 32],
+                popupAnchor: [0, -32]
+            })
+        }).addTo(map);
+
+        crashMarker.bindPopup(
+            '<b>CRASH LOCATION</b><br>' +
+            '<b>Crash ID:</b> 2025341038<br>' +
+            '<b>Time:</b> 2025-06-25 08:46<br>' +
+            '<b>Severity:</b> Minor Crash<br>' +
+            '<b>Location:</b> Greenlane<br>' +
+            '<b>Road:</b> GREEN LANE EAST<br>' +
+            '<hr>' +
+            '<b>Vehicle at crash:</b><br>' +
+            'Trip: d9ONScAlfHuZ3DJWfAMm...<br>' +
+            'Vehicle: Xg+z09JCZlqQhb+8XmKu...<br>' +
+            'Type: HCV<br>' +
+            'Distance: 1.8729274772332023m<br>' +
+            'Time diff: 0.02 min<br>' +
+            'Speed at crash: 4 mph<br>' +
+            'Match score: 95.37/100'
+        ).openPopup();
+
+        // Fit bounds
+        map.fitBounds(polyline.getBounds());
+
+        // Add legend
+        var legend = L.control({position: 'topright'});
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'legend');
+            div.innerHTML = '<div class="legend-title">Speed (km/h)</div>';
+            div.innerHTML += '<div style="background: #00ff00; width: 20px; height: 15px; display: inline-block;"></div> > 100<br>';
+            div.innerHTML += '<div style="background: #66ff33; width: 20px; height: 15px; display: inline-block;"></div> 80-100<br>';
+            div.innerHTML += '<div style="background: #ccff33; width: 20px; height: 15px; display: inline-block;"></div> 60-80<br>';
+            div.innerHTML += '<div style="background: #ffff00; width: 20px; height: 15px; display: inline-block;"></div> 40-60<br>';
+            div.innerHTML += '<div style="background: #ffcc00; width: 20px; height: 15px; display: inline-block;"></div> 20-40<br>';
+            div.innerHTML += '<div style="background: #ff6600; width: 20px; height: 15px; display: inline-block;"></div> 10-20<br>';
+            div.innerHTML += '<div style="background: #ff0000; width: 20px; height: 15px; display: inline-block;"></div> < 10<br>';
+            div.innerHTML += '<hr><div style="font-size: 12px;"><b>Trip Info:</b><br>';
+            div.innerHTML += 'Duration: 26 min<br>';
+            div.innerHTML += 'Distance: 10.0 miles<br>';
+            div.innerHTML += 'Max speed: 88 mph<br>';
+            div.innerHTML += 'Avg speed: 40 mph</div>';
+            return div;
+        };
+        legend.addTo(map);
+
+        // Add start/end markers
+        L.marker([-36.889606896551726, 174.79442586206898], {
+            icon: L.icon({
+                iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI4IiBmaWxsPSJncmVlbiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTIiIHk9IjE2IiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UzwvdGV4dD48L3N2Zz4=',
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            })
+        }).addTo(map).bindPopup('<b>START</b><br>Time: 2025-06-25 08:44:17.001');
+
+        L.marker([-36.85235896551724, 174.65057310344827], {
+            icon: L.icon({
+                iconUrl: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI4IiBmaWxsPSJibGFjayIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTIiIHk9IjE2IiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RTwvdGV4dD48L3N2Zz4=',
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            })
+        }).addTo(map).bindPopup('<b>END</b><br>Time: 2025-06-25 09:10:41');
+
+    </script>
+</body>
+</html>
